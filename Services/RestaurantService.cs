@@ -46,10 +46,11 @@ namespace RestaurantRaterMVC.Services
             RestaurantEntity restaurant = await _context.Restaurants
             .Include(r => r.Ratings)
             .FirstOrDefaultAsync(r => r.Id == id);
-            if(restaurant ==null)
-            return null;
+            if (restaurant == null)
+                return null;
 
-            RestaurantDetail restaurantDetail = new RestaurantDetail(){
+            RestaurantDetail restaurantDetail = new RestaurantDetail()
+            {
                 Id = restaurant.Id,
                 Name = restaurant.Name,
                 Location = restaurant.Location,
@@ -58,9 +59,15 @@ namespace RestaurantRaterMVC.Services
             return restaurantDetail;
         }
 
-        public Task<bool> UpdateRestaurant(RestaurantEdit model)
+        public async Task<bool> UpdateRestaurant(RestaurantEdit model)
         {
-            throw new NotImplementedException();
+            RestaurantEntity restaurant = await _context.Restaurants.FindAsync(model.Id);
+            if (restaurant == null)
+                return false;
+            restaurant.Location = model.Location;
+            restaurant.Name = model.Name;
+
+            return await _context.SaveChangesAsync() == 1;
         }
         public async Task<bool> DeleteRestaurant(int id)
         {

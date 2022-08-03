@@ -37,12 +37,36 @@ namespace RestaurantRaterMVC.Controllers
             var restaurants = await _service.GetAllRestaurants();
             return View(restaurants);
         }
-        public async Task<IActionResult> Details(int id){
+        public async Task<IActionResult> Details(int id)
+        {
             RestaurantDetail restaurant = await _service.GetRestaurantById(id);
-            if(restaurant == null)
+            if (restaurant == null)
                 return RedirectToAction(nameof(Index));
-                
+
             return View(restaurant);
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            RestaurantDetail restaurant = await _service.GetRestaurantById(id);
+            if (restaurant == null)
+                return RedirectToAction(nameof(Index));
+            RestaurantEdit restaurantEdit = new RestaurantEdit()
+            {
+                Id = restaurant.Id,
+                Name = restaurant.Name,
+                Location = restaurant.Location
+            };
+            return View(restaurantEdit);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, RestaurantEdit model){
+            if (!ModelState.IsValid)
+                return View(ModelState);
+
+                bool hasUpdated = await _service.UpdateRestaurant(model);
+                if(!hasUpdated) return View(model);
+                return RedirectToAction(nameof(Details), new {id = model.Id});
         }
         public async Task<IActionResult> Delete(int id)
         {
