@@ -10,6 +10,7 @@ builder.Services.AddDbContext<RestaurantDbContext>(options => options.UseSqlServ
     builder.Configuration.GetConnectionString("DefaultConnection")
 ));
 builder.Services.AddScoped<IRestaurantService,RestaurantService>();
+builder.Services.AddScoped<IRatingService,RatingService>();
 
 var app = builder.Build();
 

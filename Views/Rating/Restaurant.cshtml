@@ -1,0 +1,42 @@
+@model IEnumerable<RestaurantRaterMVC.Models.Rating.RatingListItem>
+
+@{
+    ViewData["Title"] = ViewBag.RestaurantName;
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model=>model.RestaurantName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model=>model.FoodScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model=>model.AtmosphereScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model=>model.CleanlinessScore)
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RestaurantName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FoodScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AtmosphereScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CleanlinessScore)
+            </td>
+        </tr>
+    }
+</table>
+<div>
+    @Html.ActionLink("Back to Index", "Index")
+</div>
